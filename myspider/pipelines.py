@@ -5,16 +5,27 @@
 
 
 # useful for handling different item types with a single interface
+import os
 
 from itemadapter import ItemAdapter
 
-
-class MyspiderPipeline:
+# 豆瓣Pipeline
+class DoubanPipeline:
     def process_item(self, item, spider):
         if spider.name == 'douban':
-            douban_result_file_src = '/Users/wujunjie/development/personal/spider/spider/myspider/results/douban.txt'
-            f = open(douban_result_file_src, "a+")
+            douban_result_file_path = os.path.abspath('.') + '/myspider/results/douban.txt'
+            f = open(douban_result_file_path, "a+")
             f.write("文章名：" + item['article_name'] + "\n" + "文章链接：" + item['article_href'] + "\n" + "发帖人昵称：" + item[
                 'user_name'] + "\n" + "发表人主页地址：" + item['user_href'] + "\n" + "最新回应时间：" + item[
                         'last_reply_time'] + "\n" + "评论条数：" + item['comment_count'] + "\n\n\n")
+            f.close()
+
+# 百度贴吧Pipeline
+class BaiduTiebaPipeline:
+    def process_item(self, item, spider):
+        if spider.name == 'baidu_tieba':
+            baidu_result_file_path = os.path.abspath('.') + '/myspider/results/baidu_tieba.txt'
+            f = open(baidu_result_file_path, "a+", encoding='UTF-8')
+            f.write("标题:" + item["title"] + "\n" + "地址:" + item["href"] + "\n" + "作者:" + item["author"] + "\n" + "时间:" +
+                    item["time"] + "\n\n")
             f.close()
