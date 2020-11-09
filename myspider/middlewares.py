@@ -16,7 +16,7 @@ from itemadapter import is_item, ItemAdapter
 class RandomUserAgentDownloaderMiddleware(object):
     def process_request(self, request, spider):
         if spider.name == 'baidu_tieba':
-            request.headers['User-Agent'] = ''
+            request.headers['User-Agent'] = ""
         elif spider.name == 'douban':
             request.headers['User-Agent'] = random.choice(user_agents)
 

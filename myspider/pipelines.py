@@ -19,6 +19,7 @@ class DoubanPipeline:
                 'user_name'] + "\n" + "发表人主页地址：" + item['user_href'] + "\n" + "最新回应时间：" + item[
                         'last_reply_time'] + "\n" + "评论条数：" + item['comment_count'] + "\n\n\n")
             f.close()
+        return item
 
 # 百度贴吧Pipeline
 class BaiduTiebaPipeline:
@@ -29,3 +30,4 @@ class BaiduTiebaPipeline:
             f.write("标题:" + item["title"] + "\n" + "地址:" + item["href"] + "\n" + "作者:" + item["author"] + "\n" + "时间:" +
                     item["time"] + "\n\n")
             f.close()
+        return item
