@@ -11,9 +11,6 @@ BOT_NAME = 'myspider'
 
 SPIDER_MODULES = ['myspider.spiders']
 NEWSPIDER_MODULE = 'myspider.spiders'
-
-USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36'  # 设置useragent
-
 LOG_LEVEL = "WARNING"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent

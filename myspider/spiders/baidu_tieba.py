@@ -14,29 +14,30 @@ class BaiduSpider(scrapy.Spider):
     name = 'baidu_tieba'
     allowed_domains = ['baidu.com']
     start_urls = ['https://tieba.baidu.com/f?kw=%CD%F5%D5%DF%C8%D9%D2%AB&fr=ala0&tpl=5']
+    host = 'https://tieba.baidu.com/'
 
     def parse(self, response):
         res = response.xpath("//body")
-        a_list = res.xpath(".//ul[@id='thread_list']//div[@class='threadlist_lz clearfix']")
+        a_list = res.xpath(".//ul[@id='thread_list']//li")
         for i in a_list:
-            item = {}
-
-            item["title"] = i.xpath(".//div[@class='threadlist_title pull_left j_th_tit ']//a/@title").extract_first()
-
-            if(i.xpath(".//div[@class='threadlist_title pull_left j_th_tit ']//a/@href").extract_first() != None):
-                item["href"] = "https://tieba.baidu.com/" + i.xpath(".//div[@class='threadlist_title pull_left j_th_tit ']//a/@href").extract_first()
-
-            item["author"] = i.xpath(".//span[@class='tb_icon_author ']/@title").extract_first()
-
-            item["time"] = i.xpath(".//span[@class='pull-right is_show_create_time']/text()").extract_first()
-
-            if(item != None and item["title"] != None and item["href"] != None and item["author"] != None and item["time"] != None):
+            title = i.xpath(".//a[@class='j_th_tit ']/@title").extract_first()
+            href = i.xpath(".//a[@class='j_th_tit ']/@href").extract_first()
+            author = i.xpath(".//span[@class='tb_icon_author ']/@title").extract_first()
+            time = i.xpath(".//span[@class='threadlist_reply_date pull_right j_reply_data']/text()").extract_first()
+            if title != None and href != None and author != None and time != None:
+                href = self.host + href
+                item = {
+                    "title": title,
+                    "href": href,
+                    "author": author,
+                    "time": time,
+                }
                 yield item
 
         next_page = res.xpath(".//div[@id='frs_list_pager']//a[@class='next pagination-item ']/@href").extract_first()
 
         if int(next_page.split("pn=")[1]) < 200:
             yield scrapy.Request(
-                "https:"+next_page,
+                "https:" + next_page,
                 callback=self.parse,
             )

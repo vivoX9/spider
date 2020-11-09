@@ -20,11 +20,14 @@ class DoubanPipeline:
                 'user_name'] + "\n" + "发表人主页地址：" + item['user_href'] + "\n" + "最新回应时间：" + item[
                         'last_reply_time'] + "\n" + "评论条数：" + item['comment_count'] + "\n\n\n")
             f.close()
+        return item
 
 # 百度贴吧Pipeline
 class BaiduTiebaPipeline:
     def process_item(self, item, spider):
         if spider.name == 'baidu_tieba':
+            # print(item)
+            # return
             baidu_result_file_path = os.path.abspath('.') + '/myspider/results/baidu_tieba.txt'
             f = open(baidu_result_file_path, "a+", encoding='UTF-8')
             f.write("标题:" + item["title"] + "\n" + "地址:" + item["href"] + "\n" + "作者:" + item["author"] + "\n" + "时间:" +
