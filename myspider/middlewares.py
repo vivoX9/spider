@@ -4,9 +4,21 @@
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
+from .user_agents import user_agents
+import random
 
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter
+
+
+# 随机取user_agents
+
+class RandomUserAgentDownloaderMiddleware(object):
+    def process_request(self, request, spider):
+        if spider.name == 'baidu':
+            request.headers['User-Agent'] = ''
+        elif spider.name == 'douban':
+            request.headers['User-Agent'] = random.choice(user_agents)
 
 
 class MyspiderSpiderMiddleware:
