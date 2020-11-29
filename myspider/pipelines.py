@@ -7,6 +7,7 @@
 # useful for handling different item types with a single interface
 import os
 
+import requests
 from itemadapter import ItemAdapter
 
 # 豆瓣Pipeline
@@ -25,9 +26,7 @@ class DoubanPipeline:
 class BaiduTiebaPipeline:
     def process_item(self, item, spider):
         if spider.name == 'baidu_tieba':
-            baidu_result_file_path = os.path.abspath('.') + '/myspider/results/baidu_tieba.txt'
-            f = open(baidu_result_file_path, "a+", encoding='UTF-8')
-            f.write("标题:" + item["title"] + "\n" + "地址:" + item["href"] + "\n" + "作者:" + item["author"] + "\n" + "时间:" +
-                    item["time"] + "\n\n")
-            f.close()
+            payload = {'article_name': item["article_title"], 'article_link': item["article_link"], 'author_name': item["author_name"], 'publish_time': item["update_time"],
+                       'content': item["article_content"]}
+            r = requests.get("http://www.yuanhaonb.cn:8088/Baidu/article/save", params=payload)
         return item
